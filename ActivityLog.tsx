@@ -1,37 +1,30 @@
 
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 
-const ActivityLog: React.FC<{ logs: string[] }> = ({ logs }) => {
-  const logEndRef = useRef<HTMLDivElement>(null);
+interface ActivityLogProps {
+  logs: string[];
+}
 
-  useEffect(() => {
-    logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [logs]);
-
+const ActivityLog: React.FC<ActivityLogProps> = ({ logs }) => {
   return (
-    <div className="bg-slate-900 rounded-3xl p-5 text-slate-400 mt-6 shadow-2xl border border-slate-800">
-      <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+    <div className="bg-slate-900 rounded-3xl p-5 text-slate-300 border border-slate-800 shadow-xl overflow-hidden">
+      <div className="flex items-center justify-between mb-3 px-1">
         <h3 className="text-[10px] font-black uppercase tracking-widest text-orange-500 flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
-          Live Console
+          Activity Console
         </h3>
-        <span className="text-[9px] font-mono text-slate-600">v4.0.1</span>
       </div>
-      <div className="h-44 overflow-y-auto font-mono text-[10px] space-y-2 scrollbar-hide pr-2">
+      <div className="h-32 overflow-y-auto space-y-1.5 font-mono text-[9px] scrollbar-hide">
         {logs.length === 0 ? (
-          <div className="opacity-30 italic flex items-center gap-2">
-            <span className="text-slate-700">_</span>
-            Awaiting input...
-          </div>
+          <p className="opacity-20 italic">Awaiting tasks...</p>
         ) : (
           logs.map((log, i) => (
-            <div key={i} className="flex gap-2 animate-in fade-in duration-300">
-              <span className="text-orange-500 shrink-0">➜</span>
-              <span className="leading-normal break-words">{log}</span>
+            <div key={i} className="flex gap-2 border-l border-slate-700 pl-2 py-0.5 hover:bg-white/5 transition-colors">
+              <span className="text-orange-500 opacity-50">›</span>
+              <span className="leading-tight">{log}</span>
             </div>
           ))
         )}
-        <div ref={logEndRef} />
       </div>
     </div>
   );
